@@ -8,6 +8,5 @@ git pull origin main           (jalar)
 ctrl shitf  alt  l   ------ comando para formatear texto
 
 
-
-
+http://localhost:3000/v1/home
 
