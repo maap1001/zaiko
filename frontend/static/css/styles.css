@@ -447,6 +447,30 @@ button i {
     width: 100%;
 }
 
+/*=========================SABER MÁS================================*/
+
+.contenedorModal{
+    background-color: #e1fbfd; 
+    border-radius: 10px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7); 
+}
+
+.modal-header {
+    border-bottom: 1px solid #dee2e6; 
+}
+
+.modal-footer {
+    border-top: 1px solid #dee2e6; 
+}
+
+.modal-body {
+    padding: 20px; 
+}
+
+.modal-backdrop {
+    background-color: rgb(138, 123, 123); 
+}
+
 /*=========================EFECTO WAVE================================*/
 
 

@@ -67,7 +67,7 @@
                         ofrecer soluciones de gestión de inventarios muy intuitivas, accesibles económicamente y
                         centradas
                         en el éxito del cliente.</p>
-                    <a href="" class="btn-sbns">Saber Más</a>
+                    <a class="btn-sbns" type="button" data-bs-toggle="modal" data-bs-target="#saberMas">Saber Más</a>
                 </div>
 
                 <div class="image__about">
@@ -111,9 +111,9 @@
                     </div>
                 </div>
                 <br>
-                <a href="{% url 'pruebaDemo' %}" class="btn__text"
-                    style="width: 250px;height: 70px;margin-bottom: 20px;">Consigue
-                    una prueba gratuita</a>
+                <a data-bs-toggle="modal" data-bs-target="#register" class="btn__text"
+                    style="width: 250px;height: 70px;margin-bottom: 20px;">Prueba gratuita, regístrate ya!
+                </a>
             </section>
         </div>
 
@@ -365,6 +365,12 @@
 <!--========================================================== -->
 
 <%- include('../modales/terminoYcondiciones/terminosYcondiciones.ejs') %>
+
+<!--========================================================== -->
+<!--MODAL SABER MÁS-->
+<!--========================================================== -->
+
+<%- include('../modales/saberMas/saberMas.ejs') %>
 
 <!--========================================================== -->
 <!--FOOTER-->
