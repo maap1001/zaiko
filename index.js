@@ -12,8 +12,18 @@ app.set('views', path.join(__dirname, 'frontend', 'views'));
 app.use(exp.static(path.join(__dirname, 'frontend', 'static')));
 app.use("/v1", router);
 
+// Ruta principal
+app.get('/', (req, res) => {
+    res.render('home/home'); 
+});
 
+//Middleware para manejar errores 404
+app.use((req, res) => {
+    res.status(404).render("404/404");
+  });
 
-app.listen(process.env.PORT || 3000, () => {
-    console.log('Servidor en línea');
+//Puerto de eschuca servidor
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`El servidor esta en el puerto http://localhost:${PORT}`);
 });
