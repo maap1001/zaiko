@@ -1,0 +1,181 @@
+<!--========================================================== -->
+<!-- HEAD -->
+<!--========================================================== -->
+
+<%- include('../../partials/admin/head.ejs', {tituloWeb: 'ADMIN' }) %>
+
+<!--========================================================== -->
+<!-- NAVBAR -->
+<!--========================================================== -->
+
+<%- include('../../partials/admin/navbar.ejs') %>
+
+<!--========================================================== -->
+<!-- PORTADA DE INICIO -->
+<!--========================================================== -->
+
+<div id="layoutSidenav">
+        
+    <div id="layoutSidenav_nav">
+        <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+            <div class="sb-sidenav-menu">
+                <div class="nav">
+                    
+                    <div class="sb-sidenav-menu-heading">Menu</div>
+                    <a class="nav-link" href="#">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Panel de gestión
+                    </a>
+                    <div class="sb-sidenav-menu-heading">Interfaces</div>
+
+                    <!--Proveedores-->
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                        data-bs-target="#collapseProveedores" aria-expanded="false"
+                        aria-controls="collapseProveedores">
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-truck-field"></i></div>
+                        Proveedores
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapseProveedores" aria-labelledby="headingOne"
+                        data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="#">Registrar Proveedores</a>
+                            <a class="nav-link" href="#">
+                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                Listar Proveedores
+                            </a>
+                        </nav>
+                    </div>
+
+                    <!--inventario-->
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                        data-bs-target="#collapseInventario" aria-expanded="false"
+                        aria-controls="collapseInventario">
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-boxes-stacked"></i></div>
+                        inventario
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapseInventario" aria-labelledby="headingOne"
+                        data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="#">Registrar Productos</a>
+                            <a class="nav-link" href="#">
+                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                Listar Productos
+                            </a>
+                        </nav>
+                    </div>
+
+                     <!--Categorias-->
+                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                     data-bs-target="#collapseCategorias" aria-expanded="false"
+                     aria-controls="collapseCategorias">
+                     <div class="sb-nav-link-icon"><i class="fa-solid fa-thumbtack"></i></div>
+                     Categorias
+                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                 </a>
+                 <div class="collapse" id="collapseCategorias" aria-labelledby="headingOne"
+                     data-bs-parent="#sidenavAccordion">
+                     <nav class="sb-sidenav-menu-nested nav">
+                           <a class="nav-link" href="#">Registrar categorias</a>
+                        <a class="nav-link" href="#">
+                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                            Listar categorias
+                        </a>
+                     </nav>
+                 </div>
+
+                    <!--Clientes-->
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                        data-bs-target="#collapseClientes" aria-expanded="false" aria-controls="collapseClientes">
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></div>
+                        Clientes
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapseClientes" aria-labelledby="headingOne"
+                        data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="#">Registrar Clientes</a>
+                            <a class="nav-link" href="#">
+                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                Listar Clientes
+                            </a>
+                        </nav>
+                    </div>
+
+                    <!--Devoluciones-->
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                        data-bs-target="#collapseDevoluciones" aria-expanded="false"
+                        aria-controls="collapseDevoluciones">
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-box-open"></i></div>
+                        Devoluciones
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapseDevoluciones" aria-labelledby="headingOne"
+                        data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="#">Registrar Devoluciones</a>
+                            <a class="nav-link" href="#">
+                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                Listar Devoluciones
+                            </a>
+                        </nav>
+                    </div>
+                    
+                    <!--Pedidos-->
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                        data-bs-target="#collapsePedidos" aria-expanded="false"
+                        aria-controls="collapsePedidos">
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-box-open"></i></div>
+                        Pedidos
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapsePedidos" aria-labelledby="headingOne"
+                        data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="#">Registrar Pedidos</a>
+                            <a class="nav-link" href="#">
+                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                Listar Pedidos
+                            </a>
+                        </nav>
+                    </div>
+
+                    <!--Auditoria-->
+                        <a class="nav-link collapsed" href="#">
+                            <div class="sb-nav-link-icon"><i class="fa-brands fa-audible"></i></div>
+                            Auditoria
+                        </a>
+
+
+                    <!--Addons-->
+                    <div class="sb-sidenav-menu-heading">Completentos</div>
+                    <a class="nav-link" href="#">
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-chart-column"></i></div>
+                        Gráficos
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </div>
+        
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                
+            </div>
+        </main>
+    </div>
+</div>
+
+<!--========================================================== -->
+<!--FOOTER-->
+<!--========================================================== -->
+
+<%- include('../../partials/admin/footer.ejs') %>
+
+<!--========================================================== -->
+<!--SCRIPTS-->
+<!--========================================================== -->
+
+<%- include('../../partials/admin/scripts.ejs') %>
