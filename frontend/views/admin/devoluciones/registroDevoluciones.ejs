@@ -1,0 +1,76 @@
+<!--========================================================== -->
+<!-- HEAD -->
+<!--========================================================== -->
+
+<%- include('../../partials/admin/head.ejs', {tituloWeb: 'REGISTRO DEVOLUCIONES' }) %>
+
+<!--========================================================== -->
+<!-- NAVBAR -->
+<!--========================================================== -->
+
+<%- include('../../partials/admin/navbar.ejs') %>
+
+<!--========================================================== -->
+<!-- BARRA LATERAL -->
+<!--========================================================== -->
+
+<%- include('../../partials/admin/barraLateral.ejs') %>
+
+<!--========================================================== -->
+<!-- CONTENIDO -->
+<!--========================================================== -->
+
+<div id="layoutSidenav_content">
+    <main>
+        <div class="container-fluid px-4">
+            
+            <div class="container my-5 contenedorCentrado tablas-formularios">
+                <div class="row" style="padding: 20px;">
+                    <form action="#" method="post" class="tablas"> 
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h1 class="title-tablas">Registro de devolcuiónes</h1>
+                            <a class="btn btn-outline-secondary btn-sm" href="/v1/devoluciones/listarDevoluciones" title="Regresar al listado de devoluciónes">
+                                <i class="fa-solid fa-reply"></i>
+                            </a>
+                        </div>
+        
+                        <div class="form-group">
+                            <label for="fecha" class="form-label">Fecha de Devolución</label>
+                            <p id="fecha">2024-09-28</p> 
+                        </div>
+
+                        <div class="form-group">
+                            <label for="motivo" class="form-label">Motivo</label>
+                            <input type="text" name="motivo" id="motivo" class="form-control" value="Ejemplo de motivo"> 
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label for="imagen" class="form-label">Foto</label>
+                            <input type="file" name="foto" id="foto" class="form-control" accept="image/*">
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label for="productos" class="form-label">Productos</label>
+                            <input type="text" name="productos" id="productos" class="form-control" value="Ejemplo de producto"> 
+                        </div>
+                        <br>
+                        <div class="d-flex justify-content-center mt-4">
+                            <a href="#" class="btn btn-success btn-lg">Registrar devolcuión</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <script>
+                document.getElementById("fecha").innerText = new Date().toISOString().slice(0, 10);
+            </script>            
+            
+        </div>
+    </main>
+</div>
+
+<!--========================================================== -->
+<!--FOOTER-->
+<!--========================================================== -->
+
+<%- include('../../partials/admin/footer.ejs') %>
