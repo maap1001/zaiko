@@ -14,17 +14,17 @@
   margin-top: 20px;
 }
 #backup {
-  background: linear-gradient(#0d323f, #1d5b6d);
+  background: linear-gradient(#32c9de, #91e9f2);
   margin-bottom: 20px;
   width: 100%;
 }
 #restablecer {
-  background: linear-gradient(#1d5b6d, #158ba5);
+  background: linear-gradient(#32c9de, #91e9f2);
   margin-bottom: 20px;
   width: 100%;
 }
 #registrar {
-  background: linear-gradient(#158ba5, #32c9de);
+  background: linear-gradient(#32c9de, #91e9f2);
   margin-bottom: 20px;
   width: 100%;
 }
@@ -11289,16 +11289,6 @@ body{
   margin: auto;
 }
 
-.btn-tablas{
-  width: 75px;
-  margin-bottom: 20px;
-}
-
-/* .tablas.fade-out {
-  opacity: 0;
-  transition: opacity 0.1s;
-} */
-
 .regresar{
   display: flex;
   flex-direction: row;
@@ -11329,8 +11319,6 @@ body{
 
 .tablas-formularios{
   border: solid 1px #bfbfbf;
-  padding: 20px;
-  border-radius: 10px;
   background-color: white;
 }
 
@@ -11482,4 +11470,26 @@ body{
 
 .offcanvas-header{
   background: linear-gradient(#1fd9f1,#65edfb);
+}
+
+.contenedorCentrado{
+  table-layout: auto;
+  width: auto; 
+  max-width: 100%;
+}
+
+.texto-centrado{
+  text-align: center;
+}
+
+.btn-crear{
+  margin-top: 30px;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.table th, .table td {
+  text-align: left; 
 }
