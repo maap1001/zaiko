@@ -2,8 +2,48 @@ const usuariosModel = require('../models/usuarios.models');
 const nodemailer = require('../utils/nodemailer')
 
 exports.usuarios = async (req, res) =>{
-    res.render('admin/usuarios/usuarios')
+    try {
+        const usuarios = await usuariosModel.find();
+        res.render('admin/usuarios/usuarios', { usuarios });
+    }catch(error) {
+        console.log(error)
+    }
 }
+
+exports.editarUsuarios = async (req, res) => {
+    try {
+        const {id} = req.params; 
+        const {editarUsuarioNombreCompleto, editarUsuarioCorreo, editarUsuarioRol,editarUsuarioFoto} = req.body; 
+
+        const datosActualizados = {
+            nombreCompleto: editarUsuarioNombreCompleto,
+            correo: editarUsuarioCorreo,
+            rol: editarUsuarioRol,
+            foto: editarUsuarioFoto
+        };
+
+        const actualizarUsuario = await usuariosModel.findByIdAndUpdate(id, datosActualizados, { new: true, runValidators: true });
+
+        if (!actualizarUsuario) {
+            return res.status(404).json({ mensaje: "Usuario no encontrado" });
+        }
+
+        res.redirect("/v1/usuarios"); 
+    } catch (error) {
+        console.error("Error al actualizar el usuario:", error);
+        res.status(500).json({ mensaje: "Se presentó un error al editar el usuario", error: error.message });
+    }
+};
+
+exports.detalleUsuarios = async (req, res) => {
+    try {
+        const usuarios = await usuariosModel.findById(req.params.id);
+        res.status(200).json(usuarios);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: 'No se pudo encontrar el usuario' });
+    }
+};
 
 exports.insertarUsuarios = async (nuevoUsuario) => {
     try {
