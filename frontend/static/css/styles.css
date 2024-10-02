@@ -235,6 +235,7 @@ button i {
 }
 
 .registrar {
+    cursor: pointer;
     padding: 8px 40px;
     border: solid 3px #1fd9f1;
     font-weight: bold;
