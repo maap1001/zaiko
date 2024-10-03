@@ -55,15 +55,14 @@
                                                 <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#detalleUsuario" data-id="<%= usuario._id %>">
                                                     <i class="fa-solid fa-eye"></i> Ver
                                                 </a>
-                                                <a class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editarUsuario"
+                                                <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editarUsuario"
                                                     data-id="<%= usuario._id %>"
                                                     data-nombre="<%= usuario.nombreCompleto %>"
                                                     data-correo="<%= usuario.correo %>"
-                                                    data-contraseña="<%= usuario.contraseña %>"
                                                     data-rol="<%= usuario.rol %>"
                                                     data-foto="<%= usuario.foto %>">
                                                     <i class="fa-solid fa-user-pen"></i> Editar
-                                                </a>
+                                                </button>
                                                 <a class="btn btn-danger" href="#">
                                                     <i class="fa-solid fa-trash"></i> Eliminar
                                                 </a>
@@ -83,6 +82,12 @@
 </div>
 
 <!--========================================================== -->
+<!--FOOTER-->
+<!--========================================================== -->
+
+<%- include('../../partials/admin/footer.ejs') %>
+
+<!--========================================================== -->
 <!-- MODAL DETALLES USUARIOS -->
 <!--========================================================== -->
 
@@ -93,9 +98,3 @@
 <!--========================================================== -->
 
 <%- include('../../modales/usuarios/editarUsuarios.ejs') %>
-
-<!--========================================================== -->
-<!--FOOTER-->
-<!--========================================================== -->
-
-<%- include('../../partials/admin/footer.ejs') %>

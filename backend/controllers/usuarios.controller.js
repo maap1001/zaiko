@@ -19,7 +19,7 @@ exports.editarUsuarios = async (req, res) => {
             nombreCompleto: editarUsuarioNombreCompleto,
             correo: editarUsuarioCorreo,
             rol: editarUsuarioRol,
-            foto: editarUsuarioFoto
+            foto: editarUsuarioFoto,
         };
 
         const actualizarUsuario = await usuariosModel.findByIdAndUpdate(id, datosActualizados, { new: true, runValidators: true });
