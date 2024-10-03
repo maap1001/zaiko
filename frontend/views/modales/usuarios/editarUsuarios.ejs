@@ -7,7 +7,7 @@
         <div class="modal-content">
             <div class="container mt-5 p-4">
                 <h2>Editar Usuario</h2>
-                <form id="editarFormularioUsuario" method="POST">
+                <form id="editarFormularioUsuario" method="POST" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="editarUsuarioNombreCompleto" class="form-label">Nombre Completo</label>
                         <input type="text" class="form-control" id="editarUsuarioNombreCompleto"
@@ -25,10 +25,10 @@
                             <option value="user">User</option>
                         </select>
                     </div>
-                    <!-- <div class="mb-3">
+                    <div class="mb-3">
                         <label for="editarUsuarioFoto" class="form-label">Foto</label>
-                        <input type="file" class="form-control" id="editarUsuarioFoto" name="editarUsuarioFoto">
-                    </div> -->
+                        <input type="file" class="form-control" id="editarUsuarioFoto" name="imagen">
+                    </div>
                     <div class="d-flex justify-content-between" style="margin-bottom: 10px;">
                         <button type="submit" class="btn btn-success">Guardar Cambios <i class="fa-solid fa-check"
                                 style="margin-left: 10px;"></i></button>

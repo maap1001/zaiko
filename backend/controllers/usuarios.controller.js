@@ -22,6 +22,10 @@ exports.editarUsuarios = async (req, res) => {
             foto: editarUsuarioFoto,
         };
 
+        if (req.file) {
+            datosActualizados.foto = req.file.path; 
+        }
+
         const actualizarUsuario = await usuariosModel.findByIdAndUpdate(id, datosActualizados, { new: true, runValidators: true });
 
         if (!actualizarUsuario) {
@@ -37,8 +41,14 @@ exports.editarUsuarios = async (req, res) => {
 
 exports.detalleUsuarios = async (req, res) => {
     try {
-        const usuarios = await usuariosModel.findById(req.params.id);
-        res.status(200).json(usuarios);
+        const { id } = req.params;
+        const usuario = await usuariosModel.findById(id);
+
+        if (!usuario) {
+            return res.status(404).json({ mensaje: "Usuario no encontrado" });
+        }
+
+        res.json(usuario); 
     } catch (error) {
         console.log(error);
         res.status(500).json({ error: 'No se pudo encontrar el usuario' });

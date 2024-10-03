@@ -26,7 +26,7 @@
             
             <div class="container my-5 contenedorCentrado tablas-formularios">
                 <div class="row" style="padding: 20px;">
-            
+                    
                     <table id="example" class="table table-striped ">
                         <caption>
                             Usuarios
@@ -35,8 +35,8 @@
                             <tr>
                                 <th scope="col">Nombre</th>
                                 <th scope="col">Correo</th>
-                                <th scope="col">Contraseña</th>
                                 <th scope="col">Rol</th>
+                                <th scope="col">Foto</th>
                                 <th scope="col">Acciones</th>
                             </tr>
                         </thead>
@@ -45,15 +45,15 @@
 
                             <% if (usuarios.length > 0) { %>
                                 <% usuarios.forEach(usuario => { %>
-                                    <tr>
+                                    <tr >
                                         <td><%= usuario.nombreCompleto %></td> 
                                         <td><%= usuario.correo %></td>
-                                        <td><%= usuario.contraseña %></td>
                                         <td><%= usuario.rol %></td>
-                                        <td>
+                                        <td><img src="/<%= usuario.foto %>" alt="usuario" style="width: 100px; height: auto;"></td>
+                                        <td >
                                             <div class="btn-group btn-group-sm" role="group" aria-label="Acciones">
                                                 <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#detalleUsuario" data-id="<%= usuario._id %>">
-                                                    <i class="fa-solid fa-eye"></i> Ver
+                                                    <i class="fa-solid fa-eye"></i> Detalles
                                                 </a>
                                                 <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editarUsuario"
                                                     data-id="<%= usuario._id %>"
