@@ -10,4 +10,6 @@ router.get('/detalleUsario/:id', usuariosController.detalleUsuarios );
 
 router.post('/editarUsuario/:id', usuariosController.editarUsuarios );
 
+router.post('/eliminarUsuario/:id', usuariosController.eliminarUsuarios );
+
 module.exports = router;

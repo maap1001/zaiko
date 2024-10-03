@@ -45,6 +45,15 @@ exports.detalleUsuarios = async (req, res) => {
     }
 };
 
+exports.eliminarUsuarios = async (req, res) => {
+    try {
+        await usuariosModel.findByIdAndDelete(req.params.id);
+        res.redirect('/v1/usuarios');
+    } catch (error) {
+        res.status(500).json({ mensaje: "Se presentó un error" });
+    }
+};
+
 exports.insertarUsuarios = async (nuevoUsuario) => {
     try {
         const usuarioExistente = await usuariosModel.findOne({ correo: nuevoUsuario.correo });
