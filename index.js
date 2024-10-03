@@ -17,6 +17,9 @@ app.get('/', (req, res) => {
     res.render('home/home'); 
 });
 
+//Middleware Multer
+app.use('/uploads', exp.static(path.join(__dirname, '/uploads')));
+
 //Middleware para manejar errores 404
 app.use((req, res) => {
     res.status(404).render("404/404");
