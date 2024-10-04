@@ -69,7 +69,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 document.getElementById('detalleUsuarioCorreo').textContent = usuarios.correo;
                 document.getElementById('detalleUsuarioContraseña').textContent = usuarios.contraseña;
                 document.getElementById('detalleUsuarioRol').textContent = usuarios.rol;
-                document.getElementById('detalleUsuarioFoto').src = usuarios.foto;
+                if (usuarios.foto) {
+                    document.getElementById('detalleUsuarioFoto').src = `/uploads/${usuarios.foto}`;
+                } else {
+                    document.getElementById('detalleUsuarioFoto').src = '/img/usuarios/user.png'; 
+                }
             })
             .catch(error => console.error('Error al cargar los detalles del usuarioo:', error));
     });

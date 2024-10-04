@@ -12,18 +12,17 @@ exports.usuarios = async (req, res) =>{
 
 exports.editarUsuarios = async (req, res) => {
     try {
-        const {id} = req.params; 
-        const {editarUsuarioNombreCompleto, editarUsuarioCorreo, editarUsuarioRol,editarUsuarioFoto} = req.body; 
+        const { id } = req.params; 
+        const { editarUsuarioNombreCompleto, editarUsuarioCorreo, editarUsuarioRol } = req.body; 
 
         const datosActualizados = {
             nombreCompleto: editarUsuarioNombreCompleto,
             correo: editarUsuarioCorreo,
             rol: editarUsuarioRol,
-            foto: editarUsuarioFoto,
         };
 
         if (req.file) {
-            datosActualizados.foto = req.file.path; 
+            datosActualizados.foto = req.file.filename; 
         }
 
         const actualizarUsuario = await usuariosModel.findByIdAndUpdate(id, datosActualizados, { new: true, runValidators: true });
@@ -38,6 +37,8 @@ exports.editarUsuarios = async (req, res) => {
         res.status(500).json({ mensaje: "Se presentó un error al editar el usuario", error: error.message });
     }
 };
+
+
 
 exports.detalleUsuarios = async (req, res) => {
     try {
