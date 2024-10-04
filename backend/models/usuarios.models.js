@@ -28,8 +28,6 @@ const schemaUsuario = new mongoose.Schema({
     },
     foto: {
         type: String,
-        required: [true, 'No existe la imagen o ruta'],
-        default: '/img/usuarios/user.png'  
     } 
 }, { timestamps: true }); 
 
