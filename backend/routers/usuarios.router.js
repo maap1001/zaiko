@@ -15,4 +15,6 @@ router.post('/eliminarUsuario/:id', usuariosController.eliminarUsuarios );
 
 router.post('/loginUsuario', usuariosController.loginUsuarios );
 
+router.post('/logoutUsuario', usuariosController.logoutUsuarios );
+
 module.exports = router;
