@@ -40,6 +40,10 @@
                         <th>Fecha de creacion:</th>
                         <td id="detalleUsuarioCreacion"></td>
                     </tr>
+                    <tr>
+                        <th>Ultima fecha de modificación:</th>
+                        <td id="detalleUsuarioModificacion"></td>
+                    </tr>
                 </table>
             </div>
         </div>
@@ -74,6 +78,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 } else {
                     document.getElementById('detalleUsuarioFoto').src = '/img/usuarios/user.png'; 
                 }
+                // Mostrar la fecha de creación
+                const createdAt = new Date(usuarios.createdAt);
+                const fechaCreacion = createdAt.toLocaleString('es-CO', { timeZone: 'America/Bogota' });
+                document.getElementById('detalleUsuarioCreacion').textContent = fechaCreacion || 'No disponible';
+                // Mostrar la fecha de modificación
+                const updatedAt = new Date(usuarios.updatedAt);
+                const fechaModificacion = updatedAt.toLocaleString('es-CO', { timeZone: 'America/Bogota' });
+                document.getElementById('detalleUsuarioModificacion').textContent = fechaModificacion || 'No disponible';
             })
             .catch(error => console.error('Error al cargar los detalles del usuarioo:', error));
     });

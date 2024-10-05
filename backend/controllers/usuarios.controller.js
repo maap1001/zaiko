@@ -137,3 +137,12 @@ exports.loginUsuarios = async (req, res) => {
         res.status(500).json({ mensaje: 'Error en el servidor', error });
     }
 };
+
+exports.logoutUsuarios = (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            return res.status(500).json({ mensaje: 'Error al cerrar la sesión' });
+        }
+        res.status(200).json({ mensaje: 'Sesión cerrada exitosamente' });
+    });
+};
