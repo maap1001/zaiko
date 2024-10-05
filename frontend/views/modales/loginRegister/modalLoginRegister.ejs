@@ -30,18 +30,18 @@
                             </a>
                         </div>
                         <p>O iniciar sesión con una cuenta</p>
-                        <form class="form" action="" method="post">
+                        <form class="form" id="loginForm">
                             <br>
                             <div>
                                 <label>
                                     <i class="fa-solid fa-user"></i>
-                                    <input type="text" placeholder="Nombre Usuario" name="usuario" autocomplete="off" required>
+                                    <input type="text" placeholder="Nombre Usuario" name="correoLogin" id="correoLogin" autocomplete="off" required>
                                 </label>
                             </div>
                             <div>
                                 <label>
                                     <i class="fa-solid fa-lock"></i>
-                                    <input type="password" placeholder="Contraseña" name="clave" autocomplete="off" required>
+                                    <input type="password" placeholder="Contraseña" name="contraseñaLogin" id="contraseñaLogin" autocomplete="off" required>
                                 </label>
                             </div>
                             <br>
@@ -120,3 +120,39 @@
     </div>
 </div>
 
+<script>
+    $(document).ready(function() {
+        $('#loginForm').on('submit', function(event) {
+            event.preventDefault(); 
+    
+            $.ajax({
+                url: '/v1/usuarios/loginUsuario', 
+                method: 'POST',
+                data: $(this).serialize(),
+                success: function(response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Éxito!',
+                        text: 'Inicio de sesión exitoso',
+                        confirmButtonText: 'Continuar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = '/v1/panelGestion';
+                        }
+                    });
+                },
+                error: function(xhr) {
+                    let mensajeError = 'Ocurrió un error en el inicio de sesión'; 
+                    if (xhr.responseJSON && xhr.responseJSON.mensaje) {
+                        mensajeError = xhr.responseJSON.mensaje; 
+                    }
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: mensajeError,
+                    });
+                }
+            });
+        });
+    });
+    </script>

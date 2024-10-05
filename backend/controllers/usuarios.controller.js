@@ -111,3 +111,29 @@ exports.registroUsuarios = async (req, res) => {
         console.error(error);
     }
 };
+
+exports.loginUsuarios = async (req, res) => {
+    const { correoLogin, contraseñaLogin } = req.body;  
+
+    try {
+        
+        const usuario = await usuariosModel.findOne({ correo: correoLogin });
+
+        if (!usuario) {
+            return res.status(400).json({ mensaje: 'El usuario no existe' });
+        }
+
+        const esValido = await usuario.compararContraseña(contraseñaLogin);
+
+        if (!esValido) {
+            return res.status(400).json({ mensaje: 'Contraseña incorrecta' });
+        }
+
+        req.session.userId = usuario;
+
+        res.redirect("/v1/panelGestion"); 
+
+    } catch (error) {
+        res.status(500).json({ mensaje: 'Error en el servidor', error });
+    }
+};
