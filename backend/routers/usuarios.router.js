@@ -13,4 +13,6 @@ router.post('/editarUsuario/:id', upload.single('imagen'),usuariosController.edi
 
 router.post('/eliminarUsuario/:id', usuariosController.eliminarUsuarios );
 
+router.post('/loginUsuario', usuariosController.loginUsuarios );
+
 module.exports = router;
