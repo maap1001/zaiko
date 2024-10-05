@@ -17,4 +17,8 @@ router.post('/loginUsuario', usuariosController.loginUsuarios );
 
 router.post('/logoutUsuario', usuariosController.logoutUsuarios );
 
+router.post('/solitarRecuperacionContrasena', usuariosController.recuperacionContraseñaUsuarios );
+
+router.post('/restablecerContrasena/:token', usuariosController.restablecerContraseñaUsuarios );
+
 module.exports = router;

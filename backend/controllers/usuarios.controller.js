@@ -1,3 +1,4 @@
+const crypto = require('crypto');
 const usuariosModel = require('../models/usuarios.models');
 const nodemailer = require('../utils/nodemailer')
 
@@ -145,4 +146,77 @@ exports.logoutUsuarios = (req, res) => {
         }
         res.status(200).json({ mensaje: 'Sesión cerrada exitosamente' });
     });
+};
+
+exports.recuperacionContraseñaUsuarios = async (req, res) => {
+    const { correoRecuperarContraseña } = req.body;
+
+    try {
+        const usuario = await usuariosModel.findOne({ correo:correoRecuperarContraseña });
+
+        if (!usuario) {
+            return res.status(400).json({ mensaje: 'El correo no está registrado' });
+        }
+
+        // Generar un token de restablecimiento
+        const token = crypto.randomBytes(20).toString('hex');
+        const expiracion = Date.now() + 3600000; // Token válido por 1 hora
+
+        // Guardar token y expiración en el usuario
+        usuario.tokenRecuperarContraseña = token;
+        usuario.expiracionToken = expiracion;
+
+        await usuario.save();
+
+        // Enviar correo electrónico con el token
+        const enlaceRecuperacion = `http://${req.headers.host}/v1/restablecerContrasena/${token}`;
+        await nodemailer.sendEmail(
+            usuario.correo,
+            "Restablecimiento de contraseña",
+            `Has solicitado restablecer tu contraseña. Haz clic en el siguiente enlace o cópialo en tu navegador: ${enlaceRecuperacion}`
+        );
+
+        console.log(`Correo de recuperación enviado a ${usuario.correo}`);
+        res.status(200).json({ mensaje: 'Correo de recuperación enviado' });
+
+    } catch (error) {
+        console.error('Error al solicitar la recuperación de contraseña:', error);
+        res.status(500).json({ mensaje: 'Error en el servidor' });
+    }
+};
+
+exports.restablecerContraseñaUsuarios = async (req, res) => {
+    const { token } = req.params;
+    const { nuevaContraseña } = req.body;
+
+    try {
+        const usuario = await usuariosModel.findOne({
+            tokenRecuperarContraseña: token,
+            expiracionToken: { $gt: Date.now() } // Verifica que el token no haya expirado
+        });
+
+        if (!usuario) {
+            return res.status(400).json({ mensaje: 'El token es inválido o ha expirado' });
+        }
+
+        // Actualizar la contraseña
+        usuario.contraseña = nuevaContraseña;
+        usuario.tokenRecuperarContraseña = undefined;  // Borrar el token después de usarlo
+        usuario.expiracionToken = undefined; 
+
+        await usuario.save();
+
+        // Confirmación por correo electrónico (opcional)
+        await nodemailer.sendEmail(
+            usuario.correo,
+            "Contraseña Restablecida",
+            `Tu contraseña ha sido actualizada correctamente.`
+        );
+
+        res.status(200).json({ mensaje: 'Contraseña actualizada exitosamente' });
+
+    } catch (error) {
+        console.error('Error al restablecer la contraseña:', error);
+        res.status(500).json({ mensaje: 'Error en el servidor' });
+    }
 };
