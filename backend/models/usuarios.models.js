@@ -28,7 +28,13 @@ const schemaUsuario = new mongoose.Schema({
     },
     foto: {
         type: String,
-    } 
+    },
+    tokenRecuperarContraseña: {
+        type: String,
+    },
+    expiracionToken: {
+        type: Date,
+    }
 }, { timestamps: true }); 
 
 schemaUsuario.pre('save', async function (continuar) {
