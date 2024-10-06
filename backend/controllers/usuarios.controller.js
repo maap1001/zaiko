@@ -158,18 +158,15 @@ exports.recuperacionContraseñaUsuarios = async (req, res) => {
             return res.status(400).json({ mensaje: 'El correo no está registrado' });
         }
 
-        // Generar un token de restablecimiento
         const token = crypto.randomBytes(20).toString('hex');
         const expiracion = Date.now() + 3600000; // Token válido por 1 hora
 
-        // Guardar token y expiración en el usuario
         usuario.tokenRecuperarContraseña = token;
         usuario.expiracionToken = expiracion;
 
         await usuario.save();
 
-        // Enviar correo electrónico con el token
-        const enlaceRecuperacion = `http://${req.headers.host}/v1/restablecerContrasena/${token}`;
+        const enlaceRecuperacion = `http://${req.headers.host}/v1/usuarios/restablecerContrasena/${token}`;
         await nodemailer.sendEmail(
             usuario.correo,
             "Restablecimiento de contraseña",
@@ -185,6 +182,27 @@ exports.recuperacionContraseñaUsuarios = async (req, res) => {
     }
 };
 
+exports.formularioRestablecimientoContrasena = async (req, res) => {
+    const { token } = req.params;
+
+    try {
+        const usuario = await usuariosModel.findOne({
+            tokenRecuperarContraseña: token,
+            expiracionToken: { $gt: Date.now() } 
+        });
+
+        if (!usuario) {
+            return res.status(400).render('home/mensajeError', { mensaje: 'Si no has recibido un correo electrónico o el enlace ha expirado, puedes solicitar uno nuevo a través del botón a continuación.' });
+        }
+
+        res.render('home/restablecerContrasena', { token });
+
+    } catch (error) {
+        console.error('Error al renderizar el formulario de restablecimiento:', error);
+        res.status(500).render('mensajeError', { mensaje: 'Error en el servidor' });
+    }
+};
+
 exports.restablecerContraseñaUsuarios = async (req, res) => {
     const { token } = req.params;
     const { nuevaContraseña } = req.body;
@@ -196,7 +214,7 @@ exports.restablecerContraseñaUsuarios = async (req, res) => {
         });
 
         if (!usuario) {
-            return res.status(400).json({ mensaje: 'El token es inválido o ha expirado' });
+            return res.status(400).render('home/mensajeError', { mensaje: 'Si no has recibido un correo electrónico o el enlace ha expirado, puedes solicitar uno nuevo a través del botón a continuación.' });
         }
 
         // Actualizar la contraseña
@@ -220,3 +238,5 @@ exports.restablecerContraseñaUsuarios = async (req, res) => {
         res.status(500).json({ mensaje: 'Error en el servidor' });
     }
 };
+
+
