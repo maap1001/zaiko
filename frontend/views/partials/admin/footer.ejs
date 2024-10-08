@@ -32,5 +32,32 @@
    <script src="https://kit.fontawesome.com/f7e2f3f7cb.js" crossorigin="anonymous"></script>
 
     </body>
-
+    <script>
+        var eliminarModal = document.getElementById('confirmarEliminarModal');
+        eliminarModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+            var categoriaId = button.getAttribute('data-id');
+            var form = document.getElementById('formEliminarCategoria');
+            form.action = '/v1/categorias/eliminar/' + categoriaId;
+        });
+    </script>
+    <script>
+        var editarModal = document.getElementById('editarCategoriaModal');
+        editarModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+    
+            var categoriaId = button.getAttribute('data-id');
+            var nombre = button.getAttribute('data-nombre');
+            var descripcion = button.getAttribute('data-descripcion');
+            var presentacion = button.getAttribute('data-presentacion');
+    
+            var form = document.getElementById('formEditarCategoria');
+            form.action = '/v1/categorias/editar/' + categoriaId;
+            document.getElementById('editNombreCategoria').value = nombre;
+            document.getElementById('editDescripcionCategoria').value = descripcion;
+            document.getElementById('editPresentacionCategoria').value = presentacion;
+        });
+    </script>
+    
+    
 </html>
