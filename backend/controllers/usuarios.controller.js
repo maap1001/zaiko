@@ -39,8 +39,6 @@ exports.editarUsuarios = async (req, res) => {
     }
 };
 
-
-
 exports.detalleUsuarios = async (req, res) => {
     try {
         const { id } = req.params;
