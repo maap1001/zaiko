@@ -266,3 +266,7 @@ exports.cambiarContrasena = async (req, res) => {
         res.status(500).json({ mensaje: 'Error al cambiar la contraseña', error });
     }
 };
+
+exports.formularioRutasProtegidas = async (req, res) =>{
+    res.render('home/rutasProtegida');
+}

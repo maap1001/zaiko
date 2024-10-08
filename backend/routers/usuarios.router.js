@@ -2,20 +2,21 @@ const express = require('express');
 const router = express.Router();
 const upload = require('../utils/multer');
 const usuariosController = require('../controllers/usuarios.controller');
+const middlewareAutenticacion = require('../utils/middleareAutenticacion');
 
-router.get('/', usuariosController.usuarios );
+router.get('/',middlewareAutenticacion, usuariosController.usuarios );
 
 router.post('/registroUsario', usuariosController.registroUsuarios );
 
-router.get('/detalleUsario/:id',usuariosController.detalleUsuarios );
+router.get('/detalleUsario/:id',middlewareAutenticacion,usuariosController.detalleUsuarios );
 
-router.post('/editarUsuario/:id', upload.single('imagen'),usuariosController.editarUsuarios );
+router.post('/editarUsuario/:id',middlewareAutenticacion, upload.single('imagen'),usuariosController.editarUsuarios );
 
-router.post('/eliminarUsuario/:id', usuariosController.eliminarUsuarios );
+router.post('/eliminarUsuario/:id',middlewareAutenticacion, usuariosController.eliminarUsuarios );
 
 router.post('/loginUsuario', usuariosController.loginUsuarios );
 
-router.post('/logoutUsuario', usuariosController.logoutUsuarios );
+router.post('/logoutUsuario',middlewareAutenticacion, usuariosController.logoutUsuarios );
 
 router.post('/solitarRecuperacionContrasena', usuariosController.recuperacionContraseñaUsuarios );
 
@@ -23,5 +24,6 @@ router.get('/restablecerContrasena/:token', usuariosController.formularioRestabl
 
 router.post('/restablecerContrasena/:token', usuariosController.restablecerContraseñaUsuarios );
 
+router.get('/rutasProtegidas', usuariosController.formularioRutasProtegidas );
 
 module.exports = router;
