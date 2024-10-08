@@ -11493,3 +11493,28 @@ body{
 .table th, .table td {
   text-align: left; 
 }
+
+.modal-detalle{
+  background: none;
+  border: none;
+}
+
+.modal {
+  backdrop-filter: blur(5px);
+}
+
+.formDetalle {
+  background: white;
+  border: solid 1px black;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  width: auto; 
+  max-width: 100%; 
+  margin: 0 auto;
+  margin-bottom: 10px;
+  text-align: center;
+  box-sizing: border-box; 
+}
