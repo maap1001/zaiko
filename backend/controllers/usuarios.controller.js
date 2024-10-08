@@ -245,4 +245,26 @@ exports.restablecerContraseñaUsuarios = async (req, res) => {
     }
 };
 
+exports.cambiarContrasena = async (req, res) => {
+    const { contrasenaActual, nuevaContrasena } = req.body;
 
+    try {
+        const usuario = req.userId; 
+
+        const contrasenaValida = await usuario.compararContraseña(contrasenaActual);
+        if (!contrasenaValida) {
+            return res.status(400).json({ mensaje: 'Contraseña invalida intentalo de nuevo' });
+        }
+
+        if (contrasenaActual === nuevaContrasena) {
+            return res.status(400).json({ mensaje: 'La contraseña no puede ser igual a la anterior' });
+        }
+
+        usuario.contraseña = nuevaContrasena;
+        await usuario.save(); 
+
+        res.status(200).json({ mensaje: 'Contraseña actualizada con éxito' });
+    } catch (error) {
+        res.status(500).json({ mensaje: 'Error al cambiar la contraseña', error });
+    }
+};
