@@ -94,6 +94,12 @@ exports.registroUsuarios = async (req, res) => {
 
         console.log('Intentando crear un nuevo usuario...'); 
 
+        const usuarioExistente = await usuariosModel.findOne({ correo: usuario.correo });
+
+        if (usuarioExistente) {
+            return res.status(400).json({ mensaje: "El correo ya está registrado. Por favor, usa otro correo." });
+        }
+
         let insertarUsuario = await exports.insertarUsuarios(usuario);
         
         if (!insertarUsuario) {
@@ -210,7 +216,7 @@ exports.restablecerContraseñaUsuarios = async (req, res) => {
     try {
         const usuario = await usuariosModel.findOne({
             tokenRecuperarContraseña: token,
-            expiracionToken: { $gt: Date.now() } // Verifica que el token no haya expirado
+            expiracionToken: { $gt: Date.now() } 
         });
 
         if (!usuario) {
@@ -219,7 +225,7 @@ exports.restablecerContraseñaUsuarios = async (req, res) => {
 
         // Actualizar la contraseña
         usuario.contraseña = nuevaContraseña;
-        usuario.tokenRecuperarContraseña = undefined;  // Borrar el token después de usarlo
+        usuario.tokenRecuperarContraseña = undefined;  
         usuario.expiracionToken = undefined; 
 
         await usuario.save();
