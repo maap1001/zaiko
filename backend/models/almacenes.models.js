@@ -3,7 +3,7 @@ const mongoose = require('../config/database');
 const schemaAlmacenes = new mongoose.Schema({
     ubicacion: {
         type: String,
-        required: [true, 'El nombre es obligatorio']
+        required: [true, 'la ubicacion es obligatorio']
     },
     descripcion: {
         type: String,

@@ -63,5 +63,35 @@
         });
     </script>
     
+    <!-- almacenes -->
+    <script>
+        var editarModal = document.getElementById('editarAlmacenModal');
+        editarModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+    
+            var almacenId = button.getAttribute('data-id');
+            var ubicacion = button.getAttribute('data-ubicacion');
+            var descripcion = button.getAttribute('data-descripcion');
+            var cantidad = button.getAttribute('data-cantidad');
+    
+            var form = document.getElementById('formEditarAlmacen');
+            form.action = '/v1/almacenes/editar/' + almacenId;
+    
+            document.getElementById('editUbicacionAlmacen').value = ubicacion;
+            document.getElementById('editDescripcionAlmacen').value = descripcion; 
+            document.getElementById('editCantidadAlmacen').value = cantidad;
+        });
+    </script>
+    
+    <script>
+        var eliminarModal = document.getElementById('confirmarEliminarModal');
+        eliminarModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+            var almacenId = button.getAttribute('data-id');
+            var form = document.getElementById('formEliminarAlmacen');
+            form.action = '/v1/almacenes/eliminar/' + almacenId;
+        });
+    </script>
+    
     
 </html>
