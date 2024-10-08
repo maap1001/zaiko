@@ -55,8 +55,6 @@ exports.editarCategoria = async (req, res) => {
             descripcion: req.body.descripcionCategoria,
             presentacion: req.body.presentacionCategoria,
         };
-
-        // Actualizar la categoría en la base de datos
         await modelCategoria.findByIdAndUpdate(categoriaId, updatedData);
 
         res.redirect('/v1/categorias/listarCategorias');

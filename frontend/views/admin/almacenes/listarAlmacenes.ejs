@@ -1,0 +1,170 @@
+<!--========================================================== -->
+<!-- HEAD -->
+<!--========================================================== -->
+
+<%- include('../../partials/admin/head.ejs', {tituloWeb: 'PROVEEDORES' }) %>
+
+<!--========================================================== -->
+<!-- NAVBAR -->
+<!--========================================================== -->
+
+<%- include('../../partials/admin/navbar.ejs') %>
+
+<!--========================================================== -->
+<!-- BARRA LATERAL -->
+<!--========================================================== -->
+
+<%- include('../../partials/admin/barraLateral.ejs') %>
+
+<!--========================================================== -->
+<!-- CONTENIDO -->
+<!--========================================================== -->
+
+<div id="layoutSidenav_content">
+    <main>
+        <div class="container-fluid px-4">
+            <div class="container my-5 contenedorCentrado tablas-formularios">
+                <div class="row" style="padding: 20px;">
+                    <table id="example" class="table table-striped">
+                        <caption>
+                            Almacenes
+                        </caption>
+                        <thead class="texto-centrado">
+                            <tr>
+                                <th scope="col">Ubicación</th> 
+                                <th scope="col">Descripción</th> 
+                                <th scope="col">Cantidad</th> 
+                                <th scope="col">Acciones</th> 
+                            </tr>
+                        </thead>
+                        <tbody>    
+                            <% almacenes.forEach(almacen => { %>
+                                <tr>
+                                    <td><%= almacen.ubicacion %></td>
+                                    <td><%= almacen.descripcion %></td> 
+                                    <td><%= almacen.cantidad %></td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm" role="group" aria-label="Acciones">
+                                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" 
+                                                data-bs-target="#editarAlmacenModal"
+                                                data-id="<%= almacen._id %>" 
+                                                data-ubicacion="<%= almacen.ubicacion %>" 
+                                                data-descripcion="<%= almacen.descripcion %>" 
+                                                data-cantidad="<%= almacen.cantidad %>">
+                                                Editar
+                                            </button>
+                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" 
+                                                data-bs-target="#confirmarEliminarModal" 
+                                                data-id="<%= almacen._id %>">
+                                                <i class="fa-solid fa-trash"></i> Eliminar
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% }) %>                                
+                        </tbody>
+                    </table>
+                    <button type="button" class="btn btn-success btn-crear" data-bs-toggle="modal" data-bs-target="#registrarAlmacenModal">
+                        Registrar Almacen
+                        <i class="fa-solid fa-plus" style="margin-left: 9px;"></i>
+                    </button>                    
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- modal registro -->
+<div class="modal fade" id="registrarAlmacenModal" tabindex="-1" aria-labelledby="registrarAlmacenModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="registrarAlmacenModalLabel">Registrar Nuevo Almacen</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formRegistrarAlmacen" action="/v1/almacenes" method="POST">
+                    <div class="form-group mb-3">
+                        <label for="ubicacion">Ubicación:</label>
+                        <input type="text" id="ubicacion" name="ubicacion" required class="form-control">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="descripcionAlmacen">Descripción:</label>
+                        <textarea id="descripcionAlmacen" name="descripcionAlmacen" required class="form-control"></textarea>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="cantidad">Cantidad:</label>
+                        <input type="number" id="cantidad" name="cantidad" required class="form-control">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Registrar Almacén</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- modal eliminar -->
+<div class="modal fade" id="confirmarEliminarModal" tabindex="-1" aria-labelledby="confirmarEliminarModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmarEliminarModalLabel">Confirmar Eliminación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ¿Estás seguro de que deseas eliminar este almacen?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <form id="formEliminarAlmacen" method="POST">
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- modal editar -->
+<div class="modal fade" id="editarAlmacenModal" tabindex="-1" aria-labelledby="editarAlmacenModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editarAlmacenModalLabel">Editar Almacén</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formEditarAlmacen" method="POST">
+                    <div class="form-group mb-3">
+                        <label for="editUbicacionAlmacen">Ubicación:</label>
+                        <input type="text" id="editUbicacionAlmacen" name="ubicacion" required class="form-control">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="editDescripcionAlmacen">Descripción:</label>
+                        <textarea id="editDescripcionAlmacen" name="descripcion" required class="form-control"></textarea>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="editCantidadAlmacen">Cantidad:</label>
+                        <input type="number" id="editCantidadAlmacen" name="cantidad"  min="1" class="form-control">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Actualizar Almacén</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!--========================================================== -->
+<!--FOOTER-->
+<!--========================================================== -->
+
+<%- include('../../partials/admin/footer.ejs') %>

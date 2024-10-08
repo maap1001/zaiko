@@ -3,6 +3,7 @@ const router = express.Router();
 const panelGestionRouter = require('./panelGestion.router');
 const proveedoresRouter = require('./proveedores.router');
 const productosRouter = require('./productos.router');
+const almacenesRouter = require('./almacenes.router');
 const categoriasRouter = require('./categorias.router');
 const clientesRouter = require('./clientes.router');
 const devolucionesRouter = require('./devoluciones.router');
@@ -17,6 +18,8 @@ router.use('/panelGestion', panelGestionRouter);
 router.use('/proveedores', proveedoresRouter);
 
 router.use('/productos', productosRouter);
+
+router.use('/almacenes', almacenesRouter);
 
 router.use('/categorias', categoriasRouter);
 
