@@ -1,0 +1,92 @@
+<!--========================================================== -->
+<!-- HEAD -->
+<!--========================================================== -->
+
+<%- include('../../partials/admin/head.ejs', {tituloWeb: 'LISTADO PROVEEDORES' }) %>
+
+<!--========================================================== -->
+<!-- NAVBAR -->
+<!--========================================================== -->
+
+<%- include('../../partials/admin/navbar.ejs') %>
+
+<!--========================================================== -->
+<!-- BARRA LATERAL -->
+<!--========================================================== -->
+
+<%- include('../../partials/admin/barraLateral.ejs') %>
+
+<!--========================================================== -->
+<!-- CONTENIDO -->
+<!--========================================================== -->
+
+<div id="layoutSidenav_content">
+    <div class="container-fluid px-4">
+
+        <div class="container my-5 contenedorCentrado tablas-formularios">
+            <div class="row" style="padding: 20px;">
+            
+                <table id="example" class="table table-striped " >
+                    <caption>
+                        Proveedores
+                    </caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Documento</th> 
+                            <th scope="col">Teléfono</th>  
+                            <th scope="col">Correo</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (proveedores.length > 0) { %>
+                            <% proveedores.forEach(proveedor => { %>
+                                <tr>
+                                    <td><%= proveedor.nombre %></td>
+                                    <td><%= proveedor.documento %></td>
+                                    <td><%= proveedor.telefono %></td>
+                                    <td><%= proveedor.correo %></td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm" role="group" aria-label="Acciones">
+                                            <a class="btn btn-primary">
+                                                <i class="fa-solid fa-eye"></i> Detalles
+                                            </a>
+                                            <button class="btn btn-warning">
+                                                <i class="fa-solid fa-user-pen"></i> Editar
+                                            </button>
+                                            <a class="btn btn-danger">
+                                                <i class="fa-solid fa-trash"></i> Eliminar
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        <% } %>
+                        
+                    </tbody>
+                </table>
+                <a
+                    data-bs-toggle="modal" data-bs-target="#crearProveedor"
+                    class="btn btn-success btn-crear">
+                    Registrar proveedor
+                    <i 
+                    class="fa-solid fa-plus" 
+                    style="margin-left: 9px;">
+                    </i>
+                </a>
+            </div>
+        </div>
+        
+    </div>    
+</div>
+
+<!--========================================================== -->
+<!--FOOTER-->
+<!--========================================================== -->
+<%- include('../../partials/admin/footer.ejs') %>
+
+<!--========================================================== -->
+<!--MODAL CREAR PROVEEDOR-->
+<!--========================================================== -->
+<%- include('../../modales/proveedores/crearProveedor.ejs') %>
