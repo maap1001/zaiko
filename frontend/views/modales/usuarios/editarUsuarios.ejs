@@ -32,7 +32,7 @@
                     <div class="d-flex justify-content-between" style="margin-bottom: 10px;">
                         <button type="submit" class="btn btn-success">Guardar Cambios <i class="fa-solid fa-check"
                                 style="margin-left: 10px;"></i></button>
-                        <a href="/v1/usuarios" class="btn btn-danger">Cancelar</a>
+                        <a id="cerrarModalEditarUsuario" class="btn btn-danger">Cancelar</a>
                     </div>
                 </form>
             </div>
@@ -42,32 +42,4 @@
 
 <!----------------------------SCRIPTS----------------------------->
 
-<script>
-
-    //--========================================================== -->
-    //--Scrip para editar usuarios-->
-    //--========================================================== -->
-
-    $(document).ready(function () {
-        $('#editarUsuario').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget);
-
-            var id = button.data('id');
-            var nombre = button.data('nombre');
-            var correo = button.data('correo');
-            var rol = button.data('rol');
-            // var foto = button.data('foto');
-
-            var modal = $(this);
-
-            modal.find('#editarFormularioUsuario').attr('action', '/v1/usuarios/editarUsuario/' + id);
-            modal.find('#editarUsuarioNombreCompleto').val(nombre);
-            modal.find('#editarUsuarioCorreo').val(correo);
-            modal.find('#editarUsuarioRol').val(rol);
-            // modal.find('#editarUsuarioFotoPreview').attr('src', foto);
-
-            console.log('Datos enviados al modal correctamente.');
-        });
-    });
-
-</script>
+<script src="/js/admin/usuarios/editarUsuarios.js"></script>

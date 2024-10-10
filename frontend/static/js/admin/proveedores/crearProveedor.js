@@ -4,12 +4,12 @@
 
 $(document).ready(function() {
     $('#formCrearProveedor').on('submit', function(event) {
-        event.preventDefault(); // Evita el comportamiento predeterminado del formulario
+        event.preventDefault(); 
 
         $.ajax({
             url: '/v1/proveedores/crearProveedor',  
             method: 'POST',  
-            data: $(this).serialize(), // Envía los datos del formulario
+            data: $(this).serialize(), 
             success: function(response) {
                 Swal.fire({
                     icon: 'success',
@@ -25,7 +25,7 @@ $(document).ready(function() {
             error: function(xhr) {
                 let mensajeError = 'Ocurrió un error al registrar el proveedor';
                 if (xhr.responseJSON && xhr.responseJSON.mensaje) {
-                    mensajeError = xhr.responseJSON.mensaje; // Mensaje de error del servidor
+                    mensajeError = xhr.responseJSON.mensaje; 
                 }
                 Swal.fire({
                     icon: 'error',
@@ -37,4 +37,13 @@ $(document).ready(function() {
         });
     });
 });
+
+$(document).ready(function () {
+    $('#cerrarModalCrearProveedor').click(function () {
+        $('#crearProveedor').modal('hide');
+    });
+});
+
+
+
 

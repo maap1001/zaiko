@@ -25,22 +25,78 @@ exports.crearProveedores = async (req, res) => {
             metodoPago: req.body.metodoPagoProveedorCrear,
         });
 
-        // Verificar si el documento ya existe
         const documentoExistente = await proveedoresModel.findOne({ documento: req.body.documentoProveedorCrear });
         if (documentoExistente) {
             return res.status(400).json({ mensaje: "El documento ya está en uso. Por favor, utiliza otro." });
         }
 
-        // Verificar si el correo ya existe
         const correoExistente = await proveedoresModel.findOne({ correo: req.body.correoProveedorCrear });
         if (correoExistente) {
             return res.status(400).json({ mensaje: "El correo ya está en uso. Por favor, utiliza otro." });
         }
 
         await nuevoProveedor.save();
-        res.json({ mensaje: "Proveedor creado con éxito"});
+        res.json({ mensaje: "Proveedor creado con éxito" });
     } catch (error) {
         console.log('Error al registrar El proveedor:', error);
         res.status(400).json({ mensaje: "Error al registrar el proveedor. Intenta nuevamente." });
+    }
+};
+
+exports.detalleProveedores = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const proveedor = await proveedoresModel.findById(id);
+
+        if (!proveedor) {
+            return res.status(404).json({ mensaje: "Proveedor no encontrado" });
+        }
+
+        res.json(proveedor);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: 'No se pudo encontrar el proveedor' });
+    }
+};
+
+exports.editarProveedores = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { editarProveedorNombre, editarProveedorDocumento, editarProveedorTelefono, editarProveedorCorreo, editarProveedorDireccion, editarProveedorCiudad, editarProveedorDepartamento, editarProveedorTipoEmpresa, editarProveedorMetodoPago } = req.body;
+
+        const datosActualizados = {
+            nombre: editarProveedorNombre,
+            documento: editarProveedorDocumento,
+            telefono: editarProveedorTelefono,
+            correo: editarProveedorCorreo,
+            ubicacion: {
+                direccion: editarProveedorDireccion,
+                ciudad: editarProveedorCiudad,
+                departamento: editarProveedorDepartamento,
+            },
+            tipoEmpresa: editarProveedorTipoEmpresa,
+            metodoPago: editarProveedorMetodoPago,
+        };
+
+        const actualizarProveedor = await proveedoresModel.findByIdAndUpdate(id, datosActualizados, { new: true, runValidators: true });
+
+        if (!actualizarProveedor) {
+            return res.status(404).json({ mensaje: "Proveedor no encontrado" });
+        }
+
+        res.json({ mensaje: "Proveedor actualizado exitosamente" });
+
+    } catch (error) {
+        console.error("Error al actualizar el proveedor:", error);
+        res.status(500).json({ mensaje: "Se presentó un error al editar el proveedor", error: error.message });
+    }
+};
+
+exports.eliminarProveedores = async (req, res) => {
+    try {
+        await proveedoresModel.findByIdAndDelete(req.params.id);
+        res.json({ mensaje: "Proveedor eliminado exitosamente" });
+    } catch (error) {
+        res.status(500).json({ mensaje: "Se presentó un error" });
     }
 };

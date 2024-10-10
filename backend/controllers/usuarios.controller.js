@@ -32,7 +32,8 @@ exports.editarUsuarios = async (req, res) => {
             return res.status(404).json({ mensaje: "Usuario no encontrado" });
         }
 
-        res.redirect("/v1/usuarios"); 
+        res.json({ mensaje: "Usuario actualizado exitosamente" });
+
     } catch (error) {
         console.error("Error al actualizar el usuario:", error);
         res.status(500).json({ mensaje: "Se presentó un error al editar el usuario", error: error.message });
