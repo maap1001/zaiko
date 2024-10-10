@@ -31,7 +31,7 @@ $('#eliminarProveedor').on('show.bs.modal', function (event) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: xhr.responseText || 'Error al eliminar el proveedor.',
+                    text: xhr.responseText || 'Error al eliminar el usuario.',
                 });
             }
         });

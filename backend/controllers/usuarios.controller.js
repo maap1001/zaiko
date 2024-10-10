@@ -59,7 +59,7 @@ exports.detalleUsuarios = async (req, res) => {
 exports.eliminarUsuarios = async (req, res) => {
     try {
         await usuariosModel.findByIdAndDelete(req.params.id);
-        res.redirect('/v1/usuarios');
+        res.json({ mensaje: "Usuario eliminado exitosamente" });
     } catch (error) {
         res.status(500).json({ mensaje: "Se presentó un error" });
     }
