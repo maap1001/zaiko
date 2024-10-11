@@ -32,14 +32,13 @@ exports.editarUsuarios = async (req, res) => {
             return res.status(404).json({ mensaje: "Usuario no encontrado" });
         }
 
-        res.redirect("/v1/usuarios"); 
+        res.json({ mensaje: "Usuario actualizado exitosamente" });
+
     } catch (error) {
         console.error("Error al actualizar el usuario:", error);
         res.status(500).json({ mensaje: "Se presentó un error al editar el usuario", error: error.message });
     }
 };
-
-
 
 exports.detalleUsuarios = async (req, res) => {
     try {
@@ -60,7 +59,7 @@ exports.detalleUsuarios = async (req, res) => {
 exports.eliminarUsuarios = async (req, res) => {
     try {
         await usuariosModel.findByIdAndDelete(req.params.id);
-        res.redirect('/v1/usuarios');
+        res.json({ mensaje: "Usuario eliminado exitosamente" });
     } catch (error) {
         res.status(500).json({ mensaje: "Se presentó un error" });
     }
@@ -93,6 +92,12 @@ exports.registroUsuarios = async (req, res) => {
         };
 
         console.log('Intentando crear un nuevo usuario...'); 
+
+        const usuarioExistente = await usuariosModel.findOne({ correo: usuario.correo });
+
+        if (usuarioExistente) {
+            return res.status(400).json({ mensaje: "El correo ya está registrado. Por favor, usa otro correo." });
+        }
 
         let insertarUsuario = await exports.insertarUsuarios(usuario);
         
@@ -210,7 +215,7 @@ exports.restablecerContraseñaUsuarios = async (req, res) => {
     try {
         const usuario = await usuariosModel.findOne({
             tokenRecuperarContraseña: token,
-            expiracionToken: { $gt: Date.now() } // Verifica que el token no haya expirado
+            expiracionToken: { $gt: Date.now() } 
         });
 
         if (!usuario) {
@@ -219,7 +224,7 @@ exports.restablecerContraseñaUsuarios = async (req, res) => {
 
         // Actualizar la contraseña
         usuario.contraseña = nuevaContraseña;
-        usuario.tokenRecuperarContraseña = undefined;  // Borrar el token después de usarlo
+        usuario.tokenRecuperarContraseña = undefined;  
         usuario.expiracionToken = undefined; 
 
         await usuario.save();
@@ -239,4 +244,30 @@ exports.restablecerContraseñaUsuarios = async (req, res) => {
     }
 };
 
+exports.cambiarContrasena = async (req, res) => {
+    const { contrasenaActual, nuevaContrasena } = req.body;
 
+    try {
+        const usuario = req.userId; 
+
+        const contrasenaValida = await usuario.compararContraseña(contrasenaActual);
+        if (!contrasenaValida) {
+            return res.status(400).json({ mensaje: 'Contraseña invalida intentalo de nuevo' });
+        }
+
+        if (contrasenaActual === nuevaContrasena) {
+            return res.status(400).json({ mensaje: 'La contraseña no puede ser igual a la anterior' });
+        }
+
+        usuario.contraseña = nuevaContrasena;
+        await usuario.save(); 
+
+        res.status(200).json({ mensaje: 'Contraseña actualizada con éxito' });
+    } catch (error) {
+        res.status(500).json({ mensaje: 'Error al cambiar la contraseña', error });
+    }
+};
+
+exports.formularioRutasProtegidas = async (req, res) =>{
+    res.render('home/rutasProtegida');
+}

@@ -3,6 +3,7 @@ const logger = require('morgan');
 const path = require('path');
 const session = require('express-session');
 const router = require('./backend/routers/routers')
+const verificarSesion = require('./backend/utils/middlewareVerificarSesion');
 const app = exp();
 
 app.use(logger('dev'))
@@ -20,12 +21,16 @@ app.use(session({
   cookie: { secure: false }
 }));
 
-app.use("/v1", router);
-
 // Ruta principal
 app.get('/', (req, res) => {
-    res.render('home/home'); 
+  res.render('home/home'); 
 });
+
+//  Middleware de verificación de sesión para rutas protegidas
+app.use(verificarSesion);
+
+//Rutas protegidas
+app.use("/v1", router);
 
 //Middleware Multer
 app.use('/uploads', exp.static(path.join(__dirname, '/uploads')));

@@ -1,33 +1,59 @@
-const mongoose = require('../config/database');
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const schemaProovedores = new Schema({
+const proveedorSchema = new Schema({
     nombre: {
         type: String,
-        required: [true, 'Ingrese el nombre completo']
+        required: [true, 'El nombre completo del proveedor es obligatorio'],
+        trim: true,
+        maxLength: [100, 'El nombre del proveedor no puede tener más de 100 caracteres']
     },
-    documento:{
-        type:String,
-        require: [true, 'ingrese su documento'],
-        maxLength:[11, 'ingrese un documento valido']
+    documento: {
+        type: String,
+        required: [true, 'El documento de identificación es obligatorio'],
+        unique: true,
+        match: [/^\d+$/, 'El documento debe contener solo números'],
+        maxLength: [11, 'El documento no puede tener más de 11 dígitos'],
     },
     telefono: {
         type: String,
-        required: true,
+        required: [true, 'El número de teléfono es obligatorio'],
         trim: true,
-        minLength:[9, 'El telefono ingresado es muy corto'],
-        maxLength:[14, 'El telefono ingresado es muy extenso']
+        match: [/^\d+$/, 'El teléfono debe contener solo números'],
+        maxLength: [10, 'El teléfono es demasiado largo']
     },
     correo: {
         type: String,
-        required: [true, 'Ingrese el correo']
+        required: [true, 'El correo electrónico es obligatorio'],
+        trim: true,
+        unique: true,
+        match: [/^\S+@\S+\.\S+$/, 'El formato del correo electrónico es inválido']
     },
-    productos:{
-        type: Schema.Types.ObjectId,
-        ref: 'productos',
-        required: true
-    }
-});
+    ubicacion: {
+        direccion: { 
+            type: String, 
+            required: [true, 'La dirección es obligatoria'] 
+        },
+        ciudad: { 
+            type: String, 
+            required: [true, 'La ciudad es obligatoria'] 
+        },
+        departamento: { 
+            type: String, 
+            required: [true, 'El departamento es obligatorio'] 
+        }
+    },
+    tipoEmpresa: {
+        type: String,
+        enum: ['Distribuidor', 'Fabricante', 'Comerciante'],
+        required: [true, 'Seleccione el tipo de empresa']
+    },
+    metodoPago: {
+        type: String,
+        enum: ['Transferencia', 'Cheque', 'Tarjeta de crédito', 'Efectivo'],
+        required: [true, 'Seleccione el método de pago preferido']
+    },
+}, { timestamps: true });
 
-const ProovedoresModel = mongoose.model("proovedores", schemaProovedores);
-module.exports = ProovedoresModel;
+const Proveedor = mongoose.model('Proveedor', proveedorSchema);
+module.exports = Proveedor;
