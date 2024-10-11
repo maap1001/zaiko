@@ -1,64 +1,102 @@
-const modelAlmacen = require('../models/almacenes.models')
+const almacenesModel = require('../models/almacenes.models')
 
-exports.registroAlmacenes = async (req, res) =>{
-    res.render('admin/almacenes/registroAlmacenes')
+exports.almacenes = async (req, res) => {
+    try {
+        const almacenes = await almacenesModel.find();
+        res.render('admin/almacenes/almacenes', { almacenes });
+    } catch (error) {
+        res.status(500).json({ mensaje: "Error al listar almacenes", error: error.message }); 
+    }
 }
 
-exports.listarAlmacenes = async (req, res) => {
+exports.crearAlmacenes = async (req, res) => {
     try {
-        let almacenes = await modelAlmacen.find();  
-        res.render('admin/almacenes/listarAlmacenes', { almacenes }); 
+        const nuevoAlmacen = new almacenesModel({
+            codigo: req.body.codigoAlmacenCrear,
+            pasillo: req.body.pasilloAlmacenCrear,
+            seccion: req.body.seccionAlmacenCrear,
+            estante: req.body.estanteAlmacenCrear,
+            nivel: req.body.nivelAlmacenCrear,
+            capacidad: req.body.capacidadAlmacenCrear,
+            ocupacion: req.body.ocupacionAlmacenCrear,
+            producto: req.body.productoAlmacenCrear,
+        });
+
+        const codigoExistente = await almacenesModel.findOne({ codigo: req.body.codigoAlmacenCrear });
+        if (codigoExistente) {
+            return res.status(400).json({ mensaje: "El codigo ya está en uso. Por favor, utiliza otro." });
+        }
+
+        await nuevoAlmacen.save();
+        res.json({ mensaje: "Almacen creado con éxito" });
     } catch (error) {
-        res.status(500).json({ mensaje: 'No hay almacenes registrados' });
+        console.log('Error al registrar el almacen:', error);
+        res.status(400).json({ mensaje: "Error al registrar el almacen. Intenta nuevamente." });
     }
 };
 
-exports.crearAlmacen = async (req, res) => {
+exports.detalleAlmacenes = async (req, res) => {
     try {
-      const nuevoAlmacen = {
-        ubicacion: req.body.ubicacion,
-        descripcion: req.body.descripcionAlmacen,
-        cantidad: req.body.cantidad,
-      };
-      const almacen = new modelAlmacen(nuevoAlmacen);
-      await almacen.save();
-      res.redirect('/v1/almacenes/listarAlmacenes');
+        const { id } = req.params;
+        const almacen = await almacenesModel.findById(id);
+
+        if (!almacen) {
+            return res.status(404).json({ mensaje: "Proveedor no encontrado" });
+        }
+
+        res.json(almacen);
     } catch (error) {
-      console.log('Error al registrar el almacen:', error);
-      res.render('admin/almacenes/registroAlmacenes', { mensaje: "Error al registrar almacen. Intenta nuevamente." });
+        console.log(error);
+        res.status(500).json({ error: 'No se pudo encontrar el almacen' });
     }
-  };
+};
 
-
-  exports.editarAlmacen = async (req, res) => {
+exports.editarAlmacenes = async (req, res) => {
     try {
-        const almacenId = req.params.id;
-        const updatedData = {
-            ubicacion: req.body.ubicacion,
-            descripcion: req.body.descripcion,
-            cantidad: req.body.cantidad,
+        const { id } = req.params;
+        const {
+            editarAlmacenCodigo, 
+            editarAlmacenPasillo, 
+            editarAlmacenSeccion, 
+            editarAlmacenEstante, 
+            editarAlmacenNivel, 
+            editarAlmacenCapacidad, 
+            editarAlmacenOcupacion, 
+            editarAlmacenProducto 
+        } = req.body;
+
+        const datosActualizados = {
+            codigo: editarAlmacenCodigo,
+            pasillo: editarAlmacenPasillo,
+            seccion: editarAlmacenSeccion,
+            estante: editarAlmacenEstante,
+            nivel: editarAlmacenNivel,
+            capacidad: editarAlmacenCapacidad,
+            ocupacion: editarAlmacenOcupacion,
+            producto: editarAlmacenProducto || null, 
         };
 
-        await modelAlmacen.findByIdAndUpdate(almacenId, updatedData);
 
-        res.redirect('/v1/almacenes/listarAlmacenes');
+        const actualizarAlmacen = await almacenesModel.findByIdAndUpdate(id, datosActualizados, { new: true, runValidators: true });
+
+        if (!actualizarAlmacen) {
+            return res.status(404).json({ mensaje: "Almacén no encontrado" });
+        }
+
+        res.json({ mensaje: "Almacén actualizado exitosamente"});
+
     } catch (error) {
-        console.log('Error al editar el almacén:', error);
-        res.status(500).json({ mensaje: 'Se produjo un error al actualizar el almacén' });
+        console.error("Error al actualizar el almacén:", error);
+        res.status(500).json({ mensaje: "Se presentó un error al editar el almacén", error: error.message });
     }
 };
 
-
-
-exports.eliminarAlmacen = async (req, res) => {
+exports.eliminarAlmacenes = async (req, res) => {
     try {
-        const almacenId = req.params.id;
-        await modelAlmacen.findByIdAndDelete(almacenId);
+        await almacenesModel.findByIdAndDelete(req.params.id);
 
-        res.redirect('/v1/almacenes/listarAlmacenes');
+        res.json({ mensaje: "Almacén eliminado exitosamente" });
     } catch (error) {
-        console.log('Error al eliminar almacen:', error);
-        res.status(500).json({ mensaje: "Error al eliminar el almacen." });
+        res.status(500).json({ mensaje: "Se presentó un error al eliminar el almacén", error: error.message });
     }
 };
-

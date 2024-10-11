@@ -1,65 +1,84 @@
-const modelCategoria = require('../models/categorias.models')
+const categoriasModel = require('../models/categorias.models')
 
-exports.registroCategorias = async (req, res) =>{
-    res.render('admin/categorias/registroCategorias')
-}
-
-exports.listarCategorias = async (req, res) => {
+exports.categorias = async (req, res) => {
     try {
-        let categorias = await modelCategoria.find();  // Cambié categoria a categorias
-        res.render('admin/categorias/listarCategorias', { categorias });  // Cambié el objeto
+        const categorias = await categoriasModel.find();  
+        res.render('admin/categorias/categorias', { categorias });  
     } catch (error) {
-        res.status(500).json({ mensaje: 'No se encuentran categorías' });
+        console.error("Error al listar categorías:", error); 
+        res.status(500).json({ mensaje: "Error al listar categorías", error: error.message }); 
     }
 };
 
 
-exports.createCateg = async (req, res) => {
+exports.crearCategorias = async (req, res) => {
     try {
-      const newCateg = {
-        nombre: req.body.nombreCategoria,
-        descripcion: req.body.descripcionCategoria,
-        presentacion: req.body.presentacionCategoria,
-      };
-      const categoria = new modelCategoria(newCateg);
-      await categoria.save();
-      res.redirect('/v1/categorias/listarCategorias');
+        const nuevaCategoria = new categoriasModel({
+            nombre: req.body.nombreCategoriaCrear,
+            descripcion: req.body.descripcionCategoriaCrear,
+            presentacion: req.body.presentacionCategoriaCrear,
+        });
+
+        const nombreExistente = await categoriasModel.findOne({ nombre: req.body.nombreCategoriaCrear });
+        if (nombreExistente) {
+            return res.status(400).json({ mensaje: "El nombre ya está en uso. Por favor, utiliza otro." });
+        }
+
+        await nuevaCategoria.save();
+        res.json({ mensaje: "Categoria creada con éxito" });
     } catch (error) {
-      console.log('Error al registrar la categoría:', error);
-      res.render('admin/categorias/registroCategorias', { mensaje: "Error al registrar la categoría. Intenta nuevamente." });
-    }
-  };
-
-  exports.deleteCateg = async (req, res) => {
-    try {
-        // Obtener el ID de la categoría desde los parámetros de la ruta
-        const categoriaId = req.params.id;
-
-        // Buscar y eliminar la categoría por su ID
-        await modelCategoria.findByIdAndDelete(categoriaId);
-
-        // Redirigir a la lista de categorías después de eliminarla
-        res.redirect('/v1/categorias/listarCategorias');
-    } catch (error) {
-        console.log('Error al eliminar la categoría:', error);
-        res.status(500).json({ mensaje: "Error al eliminar la categoría." });
+        console.log('Error al registrar la categoria:', error);
+        res.status(400).json({ mensaje: "Error al registrar la categoria. Intenta nuevamente." });
     }
 };
 
-
-exports.editarCategoria = async (req, res) => {
+exports.detalleCategorias = async (req, res) => {
     try {
-        const categoriaId = req.params.id;
-        const updatedData = {
-            nombre: req.body.nombreCategoria,
-            descripcion: req.body.descripcionCategoria,
-            presentacion: req.body.presentacionCategoria,
+        const { id } = req.params;
+        const categoria = await categoriasModel.findById(id);
+
+        if (!categoria) {
+            return res.status(404).json({ mensaje: "Categoria no encontrada" });
+        }
+
+        res.json(categoria);
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: 'No se pudo encontrar la categoria' });
+    }
+};
+
+exports.editarCategorias = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { editarCategoriaNombre, editarCategoriaDescripcion, editarCategoriaPresentacion } = req.body;
+
+        const datosActualizados = {
+            nombre: editarCategoriaNombre,
+            descripcion: editarCategoriaDescripcion,
+            presentacion: editarCategoriaPresentacion,
         };
-        await modelCategoria.findByIdAndUpdate(categoriaId, updatedData);
 
-        res.redirect('/v1/categorias/listarCategorias');
+        const actualizarCategoria = await categoriasModel.findByIdAndUpdate(id, datosActualizados, { new: true, runValidators: true });
+
+        if (!actualizarCategoria) {
+            return res.status(404).json({ mensaje: "Categoria no encontrada" });
+        }
+
+        res.json({ mensaje: "Categoria actualizada exitosamente" });
+
     } catch (error) {
-        console.log('Error al editar la categoría:', error);
-        res.status(500).json({ mensaje: 'Se produjo un error al actualizar la categoría' });
+        console.error("Error al actualizar la categoria:", error);
+        res.status(500).json({ mensaje: "Se presentó un error al editar el categoria", error: error.message });
+    }
+};
+
+exports.eliminarCategorias = async (req, res) => {
+    try {
+        await categoriasModel.findByIdAndDelete(req.params.id);
+        res.json({ mensaje: "Categoria eliminada exitosamente" });
+    } catch (error) {
+        res.status(500).json({ mensaje: "Se presentó un error al eliminar la categoria" });
     }
 };

@@ -1,19 +1,49 @@
 const mongoose = require('../config/database');
 
-const schemaAlmacenes = new mongoose.Schema({
-    ubicacion: {
+const almacenesSchema = new mongoose.Schema({
+    codigo: {
         type: String,
-        required: [true, 'la ubicacion es obligatorio']
+        required: [true, 'El código de ubicación es obligatorio'],
+        unique: true,
+        trim: true,
+        minlength: [3, 'El código debe tener al menos 3 caracteres']
     },
-    descripcion: {
+    pasillo: {
         type: String,
-        required: [true, 'La descripción es obligatoria']
+        required: [true, 'El pasillo es obligatorio'],
+        trim: true
     },
-    cantidad: {
+    seccion: {
+        type: String,
+        required: [true, 'La sección es obligatoria'],
+        trim: true
+    },
+    estante: {
         type: Number,
-        required: [true, 'La cantidad es obligatoria']
-    }
-});
+        required: [true, 'El número de estante es obligatorio'],
+        min: [1, 'El estante debe ser al menos 1']
+    },
+    nivel: {
+        type: Number,
+        required: [true, 'El nivel es obligatorio'],
+        min: [1, 'El nivel debe ser al menos 1']
+    },
+    capacidad: {
+        type: Number,
+        required: [true, 'La capacidad es obligatoria'],
+        min: [1, 'La capacidad debe ser al menos 1']
+    },
+    ocupacion: {
+        type: Number,
+        required: [true, 'La ocupación actual es obligatoria'],
+        min: [0, 'La ocupación no puede ser negativa']
+    },
+    producto: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Producto', 
+        required: false 
+    },
+}, { timestamps: true }); 
 
-const almacenesModel = mongoose.model("almacenes", schemaAlmacenes);
-module.exports = almacenesModel;
+const almacenModel = mongoose.model("almacen", almacenesSchema);
+module.exports = almacenModel;

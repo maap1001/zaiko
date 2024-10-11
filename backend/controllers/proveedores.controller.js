@@ -5,7 +5,7 @@ exports.proveedores = async (req, res) => {
         const proveedores = await proveedoresModel.find();
         res.render('admin/proveedores/proveedores', { proveedores });
     } catch (error) {
-        console.log(error)
+        res.status(500).json({ mensaje: "Error al listar proveedores", error: error.message }); 
     }
 }
 
