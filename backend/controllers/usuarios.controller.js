@@ -1,4 +1,5 @@
 const crypto = require('crypto');
+const logActivity = require('../utils/logActivity');
 const usuariosModel = require('../models/usuarios.models');
 const nodemailer = require('../utils/nodemailer')
 
@@ -58,9 +59,22 @@ exports.detalleUsuarios = async (req, res) => {
 
 exports.eliminarUsuarios = async (req, res) => {
     try {
-        await usuariosModel.findByIdAndDelete(req.params.id);
+        const usuarioId = req.params.id;
+        
+        const usuario = await usuariosModel.findById(usuarioId);
+        
+        if (!usuario) {
+            return res.status(404).json({ mensaje: "Usuario no encontrado" });
+        }
+
+        await usuariosModel.findByIdAndDelete(usuarioId);
+        
         res.json({ mensaje: "Usuario eliminado exitosamente" });
+
+        logActivity.generateLog(logRoute, `Eliminación del ${usuario.nombre} realizada por ${req.user.email} at ${new Date()}\n`);
+
     } catch (error) {
+        console.error(error); 
         res.status(500).json({ mensaje: "Se presentó un error" });
     }
 };
