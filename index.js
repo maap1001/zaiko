@@ -1,4 +1,6 @@
 const exp = require('express');
+const backup = require('./backend/config/backup');
+const cron = require('node-cron');
 const logger = require('morgan');
 const path = require('path');
 const session = require('express-session');
@@ -39,6 +41,12 @@ app.use('/uploads', exp.static(path.join(__dirname, '/uploads')));
 app.use((req, res) => {
     res.status(404).render("404/404");
   });
+
+// Programa el backup diario a la medianoche
+cron.schedule('0  0 * * *', async () => {
+  console.log('Realizando Backup de la Base de datos');
+  await backup.backupDatabase();
+});
 
 //Puerto de eschuca servidor
 const PORT = process.env.PORT || 3000;
