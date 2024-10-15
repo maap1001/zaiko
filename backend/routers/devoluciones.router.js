@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const middlewareAutenticacion = require('../utils/middleareAutenticacion');
 const devolucionesController = require('../controllers/devoluciones.controller');
 
-router.get('/registroDevoluciones', devolucionesController.registroDevolcuiones );
-router.get('/listarDevoluciones', devolucionesController.listarDevolcuiones );
+router.get('/registroDevoluciones',middlewareAutenticacion, devolucionesController.registroDevolcuiones );
+router.get('/listarDevoluciones',middlewareAutenticacion, devolucionesController.listarDevolcuiones );
 
 module.exports = router;
