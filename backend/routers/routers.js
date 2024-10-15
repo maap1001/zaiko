@@ -12,6 +12,7 @@ const auditoriaRouter = require('./auditoria.router');
 const graficosRouter = require('./graficos.router');
 const usuariosRouter = require('./usuarios.router');
 const perfilUsuariosRouter = require('./perfilUsuario.router');
+const inventarioRouter = require('./inventario.router');
 
 router.use('/panelGestion', panelGestionRouter);
 
@@ -36,5 +37,7 @@ router.use('/graficos', graficosRouter);
 router.use('/usuarios', usuariosRouter);
 
 router.use('/perfilUsuarios', perfilUsuariosRouter);
+
+router.use('/inventario', inventarioRouter);
 
 module.exports = router;

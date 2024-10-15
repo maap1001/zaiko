@@ -45,5 +45,5 @@ const almacenesSchema = new mongoose.Schema({
     },
 }, { timestamps: true }); 
 
-const almacenModel = mongoose.model("almacen", almacenesSchema);
+const almacenModel = mongoose.model("Almacen", almacenesSchema);
 module.exports = almacenModel;
