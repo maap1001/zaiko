@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const upload = require('../utils/multer');
 const usuariosController = require('../controllers/usuarios.controller');
+const upload = require('../utils/multer');
 const middlewareAutenticacion = require('../utils/middleareAutenticacion');
 
 router.get('/',middlewareAutenticacion, usuariosController.usuarios );
