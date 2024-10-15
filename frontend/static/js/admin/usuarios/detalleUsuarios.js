@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (usuarios.foto) {
                     document.getElementById('detalleUsuarioFoto').src = `/uploads/${usuarios.foto}`;
                 } else {
-                    document.getElementById('detalleUsuarioFoto').src = '/img/usuarios/user.png'; 
+                    document.getElementById('detalleUsuarioFoto').src = '/img/default/user.png'; 
                 }
 
                 // Mostrar la fecha de creación

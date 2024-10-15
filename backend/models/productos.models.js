@@ -1,48 +1,47 @@
-const mongoose = require('../config/database');
+const mongoose = require('../config/database'); 
 const Schema = mongoose.Schema;
 
-const schemaProducto = new mongoose.Schema({
+const productoSchema = new Schema({
     nombre: {
         type: String,
-        required: [true, 'El nombre es obligatorio']
+        required: [true, 'El nombre del producto es obligatorio'],
+        trim: true,
+        minlength: [3, 'El nombre debe tener al menos 3 caracteres'],
+        maxlength: [100, 'El nombre no puede exceder los 100 caracteres']
     },
-    categorias:{
-        type: Schema.Types.ObjectId,
-        ref: 'categorias',
-        required: true
-    },
-    unidad:{
+    foto: {
         type: String,
-        required: true
-    },
-    lote:{
-        type: String,
-        required: true
-    },
-    vencimiento:{
-        type: Date,
-        required: true
+        trim: true
     },
     precio: {
         type: Number,
-        default: 0,
-        min: [0, 'El precio por defecto es 0']
+        required: [true, 'El precio es obligatorio'],
+        min: [0, 'El precio debe ser un valor positivo']
     },
-    imagen: {
-        type: String,
-        required: [true, 'No existe la imagen o ruta']
-    },
-    stock: {
+    cantidad: {
         type: Number,
-        default: 0,
-        min: [0, 'El stock por defecto es 0']
+        required: [true, 'La cantidad es obligatoria'],
+        min: [0, 'La cantidad no puede ser negativa']
     },
-    almecenes:{
+    fechaVencimiento: {
+        type: Date
+    },
+    categoria: {
         type: Schema.Types.ObjectId,
-        ref: 'almecenes',
-        required: true
+        ref: 'Categoria',
+        required: [true, 'La categoría es obligatoria']
     },
-},{versionKey:false});
+    proveedor: {
+        type: Schema.Types.ObjectId,
+        ref: 'Proveedor',
+        required: [true, 'El proveedor es obligatorio']
+    },
+    estado: {
+        type: String,
+        enum: ['disponible', 'agotado'],
+        default: 'disponible'
+    }
+}, { timestamps: true });
 
-const productoModel = mongoose.model("producto", schemaProducto);
-module.exports = productoModel;
+const Producto = mongoose.model('Producto', productoSchema);
+module.exports = Producto;
